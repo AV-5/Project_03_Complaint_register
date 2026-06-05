@@ -3,7 +3,7 @@ import cors from "cors";
 
 import healthcheckRoute from "./router/healthcheck_route.js";
 import authRoute from "./router/auth_route.js";
-import taskRoute from "./router/task_routes.js"
+import complainRoute from "./router/complain_routes.js"
 
 const app = express();
 app.use(cors({
@@ -18,6 +18,6 @@ app.get("/api", (req, res) => {
 
 app.use("/auth", authRoute);
 app.use("/healthcheck", healthcheckRoute);
-app.use("/task",taskRoute);
+app.use("/complain",complainRoute);
 
 export default app;

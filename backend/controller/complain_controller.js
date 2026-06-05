@@ -1,7 +1,7 @@
-import Task from "../models/tasks_model.js";
+import Complain from "../models/complain_model.js";
 import { v4 as uuidv4 } from "uuid";
 
-const createTask = async (req, res) => {
+const createComplain = async (req, res) => {
     try {
         const { title, description, priority, dueDate } = req.body;
         if (!title || !description) {
@@ -10,10 +10,10 @@ const createTask = async (req, res) => {
                 message: "Title and description are required",
             });
         }
-        const task = await Task.create({
+        const complain = await Complain.create({
             title,
             description,
-            taskid: uuidv4(),       // auto-generate task ID
+            complainid: uuidv4(),       // auto-generate task ID
             priority,
             dueDate,
             user: req.user.id,      // from auth middleware
@@ -21,58 +21,41 @@ const createTask = async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: "Task created successfully",
-            task,
+            message: "Complain registered successfully",
+            complain
         });
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Error creating task",
+            message: "Error registering complain",
             error: error.message,
         });
     }
 };
-const getTasks = async (req, res) => {
-    try {
-        const tasks = await Task.find({ user: req.user.id });
-
-        res.status(200).json({
-            success: true,
-            message: "Tasks fetched successfully",
-            tasks,
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Error fetching tasks",
-            error: error.message,
-        });
-    }
-};
-
-const deleteTask = async (req, res) => {
+const deleteComplain = async (req, res) => {
     try {
         const { id } = req.body;
-        const task = await Task.findOneAndDelete({
+        const complain = await Complain.findOneAndDelete({
             _id: id,
             user: req.user.id,      // ensure task belongs to the logged-in user
         });
 
-        if (!task) {
+        if (!complain) {
             return res.status(404).json({
                 success: false,
-                message: "Task not found or unauthorized",
+                message: "Complain not found",
             });
         }
 
         res.status(200).json({
             success: true,
-            message: "Task deleted successfully",
+            message: "Complain deleted successfully",
+            complain
         });
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Error deleting task",
+            message: "Error deleting complain",
             error: error.message,
         });
     }
@@ -90,23 +73,24 @@ const setPriority = async (req, res) => {
             });
         }
 
-        const task = await Task.findOneAndUpdate(
+        const complain = await Complain.findOneAndUpdate(
             { _id: id, user: req.user.id },         // scoped to current user
             { priority },
             { new: true }                           // return updated document
         );
 
-        if (!task) {
+        if (!complain) {
             return res.status(404).json({
                 success: false,
-                message: "Task not found or unauthorized",
+                message: "Complain not found",
             });
         }
 
         res.status(200).json({
             success: true,
             message: "Priority updated successfully",
-            task,
+            complain
+            
         });
     } catch (error) {
         res.status(500).json({
@@ -118,7 +102,7 @@ const setPriority = async (req, res) => {
 };
 const setStatus = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id } = req.body;
         const { completed } = req.body;  // expects true or false
 
         if (typeof completed !== "boolean") {
@@ -128,33 +112,34 @@ const setStatus = async (req, res) => {
             });
         }
 
-        const task = await Task.findOneAndUpdate(
+        const complain = await Complain.findOneAndUpdate(
             { _id: id, user: req.user.id },
             { completed },
             { new: true }
         );
 
-        if (!task) {
+        if (!complain) {
             return res.status(404).json({
                 success: false,
-                message: "Task not found or unauthorized",
+                message: "Complain not found",
             });
         }
 
         res.status(200).json({
             success: true,
-            message: `Task marked as ${completed ? "completed" : "incomplete"}`,
-            task,
+            message: `Complain marked as ${completed ? "resolved" : "unresolved"}`,
+            complain
+
         });
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Error updating task status",
+            message: "Error updating complaint status",
             error: error.message,
         });
     }
 };
 
-export { createTask, getTasks, deleteTask, setPriority, setStatus };
+export { createComplain,deleteComplain, setPriority, setStatus };
 
 

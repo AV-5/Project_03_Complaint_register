@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const taskSchema = new mongoose.Schema(
+const complainSchema = new mongoose.Schema(
     {
         title: {
             type: String,
@@ -20,13 +20,13 @@ const taskSchema = new mongoose.Schema(
             required: [true, "User is required"],
             index: true,
         },
-        taskid: {
+        complainid: {
             type: String,
-            required: [true, "Task ID is required"],
+            required: [true, "Complain ID is required"],
             unique: true,
             trim: true,
         },
-        completed: {
+        resolved: {
             type: Boolean,
             default: false,
         },
@@ -45,5 +45,5 @@ const taskSchema = new mongoose.Schema(
     }
 );
 
-const Task = mongoose.model("Task", taskSchema);
-export default Task;
+const Complain = mongoose.model("Complain", complainSchema);
+export default Complain;
