@@ -1,4 +1,4 @@
-# Node.js Authentication Backend-
+# Complain register backend app-
 
 This is a backend authentication system built using Node.js, Express, MongoDB, and JWT.  
 It includes user registration, login, email verification, protected routes, and logout functionality.
@@ -7,10 +7,13 @@ It includes user registration, login, email verification, protected routes, and 
 
 ## Features-
 
-- User registration with email verification
+- User registration 
 - Secure login using JWT
 - Password hashing with bcrypt
 - Protected routes (current user)
+- add task
+- delete task
+- set prioroty
 - Logout functionality
 - Health check API
 - Modular folder structure
@@ -34,6 +37,7 @@ backend/
 │
 ├── controller/
 │ ├── auth_controller.js
+  ├── complain_controller.js
 │ └── healthcheck_controller.js
 │
 ├── db/
@@ -43,10 +47,12 @@ backend/
 │ └── auth_middleware.js
 │
 ├── models/
-│ └── user_model.js
+│ |── user_model.js
+  ├── complain_model.js
 │
 ├── router/
 │ ├── auth_route.js
+  ├── compalain_routes.js
 │ └── healthcheck_route.js
 │
 ├── utils/
@@ -63,6 +69,7 @@ backend/
 ## Installation and Setup-
 ### 1. Clone the repository
 ```bash
+
 git clone https://github.com/your-username/your-repo-name.git
 cd your-repo-name/backend
 
@@ -85,7 +92,7 @@ npm run dev
 Server will run on:
 http://localhost:8000
 
-API Endpoints
+API Endpoints for authentication and complains
 Authentication Routes
 #Register User
 POST /auth/register
