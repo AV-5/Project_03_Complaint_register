@@ -92,7 +92,8 @@ npm run dev
 Server will run on:
 http://localhost:8000
 
-API Endpoints for authentication and complains
+API Endpoints 
+# for authentication and complains
 Authentication Routes
 #Register User
 POST /auth/register
